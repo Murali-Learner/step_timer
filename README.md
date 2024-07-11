@@ -2,8 +2,7 @@
 
 A customizable timer widget package for Flutter that allows you to create a step timer with various functionalities such as start, pause, resume, reset, and complete actions.
 
-https://github.com/Murali-Learner/step_timer/assets/70834715/60473d95-2a09-4f4d-bd66-76ff5ef85da2
-
+[![Watch the video](https://github.com/Murali-Learner/step_timer/assets/70834715/60473d95-2a09-4f4d-bd66-76ff5ef85da2)](https://github.com/Murali-Learner/step_timer/assets/70834715/60473d95-2a09-4f4d-bd66-76ff5ef85da2)
 
 ### Features
 
@@ -117,10 +116,10 @@ StepTimerIndicator get _getStepTimer {
 - `onStart` (optional): A callback function that is triggered when the timer starts.
   Here is the provided content formatted in .mdx code format, including the callback function for initialization:
 
-<!-- ## License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ## Issues and Feedback
 
-Please file issues or provide feedback on the [GitHub repository](https://github.com/your-repo/step_timer). -->
+Please file issues or provide feedback on the [GitHub repository](https://github.com/Murali-Learner/step_timer).
