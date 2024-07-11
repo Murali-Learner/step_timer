@@ -1,7 +1,8 @@
 name: step_timer
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+homepage: https://github.com/Murali-Learner/step_timer/blob/master/README.md
+repository: https://github.com/Murali-Learner/step_timer/tree/master
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
