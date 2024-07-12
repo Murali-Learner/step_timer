@@ -1,6 +1,6 @@
 name: step_timer
-description: "Step Timer"
-version: 1.0.1
+description: "A customizable Flutter timer widget package that lets you create a step timer with start, pause, resume, reset, and complete actions."
+version: 1.0.2
 homepage: https://github.com/Murali-Learner/step_timer/blob/master/README.md
 repository: https://github.com/Murali-Learner/step_timer/tree/master
 
