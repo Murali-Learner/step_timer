@@ -14,20 +14,14 @@ class TrianglePainter extends CustomPainter {
   final Color indicatorColor;
 
   /// Gap between the end of the line and the triangle
-  final double indicatorGap;
+  final double indicatorGap = 10.0;
 
   /// Size of the triangle indicator
-  final double indicatorSize;
+  final double indicatorSize = 15.0;
 
   TrianglePainter({
     required this.p1,
     required this.p2,
-
-    /// Default gap is 5.0
-    this.indicatorGap = 5.0,
-
-    /// Default size is 10.0
-    this.indicatorSize = 10.0,
 
     /// Default color is green
     this.indicatorColor = Colors.green,

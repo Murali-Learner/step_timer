@@ -9,8 +9,8 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> {
-  final int stepCount = 60;
-
+  final int stepCount = 30;
+  double arrowSize = 20;
   StepTimerController? _controller;
   bool isRunning = false;
   bool isPause = false;
@@ -31,8 +31,14 @@ class _TimerPageState extends State<TimerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // CustomPaint(
+            //   size: Size(
+            //       arrowSize * 2, arrowSize), // Adjusted size based on arrowSize
+            //   painter: ArrowPainter(arrowSize),
+            // ),
+
             getStepTimer(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -66,11 +72,11 @@ class _TimerPageState extends State<TimerPage> {
   StepTimerIndicator getStepTimer() {
     return StepTimerIndicator(
       key: const Key("timer_page"),
-      targetDuration: const Duration(seconds: 60),
+      targetDuration: const Duration(seconds: 30),
       stepCount: stepCount,
       stepWidth: 4,
-      indicatorSize: 15,
       progressColor: Colors.orange,
+      showStepNumbers: false,
       indicatorColor: Colors.orange,
       inProgressColor: Colors.grey,
       onInitialization: (controller) {
@@ -92,34 +98,34 @@ class _TimerPageState extends State<TimerPage> {
         );
       },
       onPause: (Duration timeValue) {
-        print("OnPause triggered ${timeValue.inSeconds}");
+        debugPrint("OnPause triggered ${timeValue.inSeconds}");
         setState(() {
           isPause = true;
         });
       },
       onFinish: () {
-        print("Onfinish triggered");
+        debugPrint("OnFinish triggered");
         isRunning = false;
         isPause = false;
         setState(() {});
       },
       onTick: (Duration timeValue) {
-        print("Ontick triggered ${timeValue.inSeconds}");
+        debugPrint("OnTick triggered ${timeValue.inSeconds}");
       },
       onReset: () {
-        print("Onreset triggered");
+        debugPrint("OnReset triggered");
         isRunning = false;
         isPause = false;
         setState(() {});
       },
       onResume: (Duration timerValue) {
-        print("Onresume triggered ${timerValue.inSeconds}");
+        debugPrint("OnResume triggered ${timerValue.inSeconds}");
         setState(() {
           isPause = false;
         });
       },
       onStart: () {
-        print("Onstart triggered");
+        debugPrint("OnStart triggered");
         setState(() {
           isRunning = true;
           isPause = false;

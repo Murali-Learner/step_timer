@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:step_timer/src/number_painter.dart';
+import 'package:step_timer/src/painters/circle_painter.dart';
 import 'package:step_timer/src/painters/step_painter.dart';
-import 'package:step_timer/src/painters/triangle_painter.dart';
 import 'package:step_timer/src/timer_controller.dart';
 import 'package:step_timer/src/utils/constants.dart';
 
@@ -65,11 +66,9 @@ class StepTimerIndicator extends StatefulWidget {
   /// The color used to paint the triangle indicator at the current step.
   final Color indicatorColor;
 
-  /// The gap between the step line and the triangle indicator.
-  final double indicatorGap;
+  /// Show Step number above the step.
+  final bool showStepNumbers;
 
-  /// The size of the triangle indicator.
-  final double indicatorSize;
   const StepTimerIndicator({
     super.key,
     required this.onInitialization,
@@ -91,9 +90,8 @@ class StepTimerIndicator extends StatefulWidget {
     this.targetDuration = const Duration(seconds: 60),
     this.onFinish,
     this.onTick,
-    this.indicatorGap = 5.0,
-    this.indicatorSize = 10.0,
     this.indicatorColor = Colors.green,
+    this.showStepNumbers = false,
   })  : assert(stepWidth > 0, 'Stroke width must be greater than zero'),
         assert(stepCount > 0, 'Step count must be greater than zero'),
         assert(space > 0, 'Space must be greater than zero'),
@@ -105,9 +103,7 @@ class StepTimerIndicator extends StatefulWidget {
         assert(height > 0, 'Height must be greater than zero'),
         assert(width > 0, 'Width must be greater than zero'),
         assert(targetDuration > Duration.zero,
-            'Target duration must be greater than zero'),
-        assert(indicatorGap >= 0, 'Indicator gap must not be negative'),
-        assert(indicatorSize > 0, 'Indicator size must be greater than zero');
+            'Target duration must be greater than zero');
 
   @override
   State<StepTimerIndicator> createState() => _StepTimerIndicatorState();
@@ -167,7 +163,27 @@ class _StepTimerIndicatorState extends State<StepTimerIndicator> {
                             Offset.fromDirection(stepAngle, widget.space);
                         Offset p2 = Offset.fromDirection(
                             stepAngle, widget.space - widget.stepLength);
+
+                        // Create TextPainter for the step index
+
                         return CustomPaint(
+                          foregroundPainter: !widget.showStepNumbers
+                              ? null
+                              : NumberPainter(
+                                  p1: p1,
+                                  stepIndex: stepIndex,
+                                  textPainter: TextPainter()
+                                    ..textDirection = TextDirection.ltr
+                                    ..text = TextSpan(
+                                      text: stepIndex.toString(),
+                                      style: TextStyle(
+                                        color: isActive
+                                            ? widget.progressColor
+                                            : widget.inProgressColor,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                ),
                           painter: StepPainter(
                             p1: p1,
                             p2: p2,
@@ -182,13 +198,16 @@ class _StepTimerIndicatorState extends State<StepTimerIndicator> {
                           ),
                           child: showIndicator
                               ? CustomPaint(
-                                  painter: TrianglePainter(
+                                  painter: CirclePainter(
                                     p1: p1,
-                                    p2: p2,
+                                    angle: stepAngle,
                                     indicatorColor: widget.indicatorColor,
-                                    indicatorGap: widget.indicatorGap,
-                                    indicatorSize: widget.indicatorSize,
                                   ),
+                                  // painter: TrianglePainter(
+                                  //   p1: p1,
+                                  //   p2: p2,
+                                  //   indicatorColor: widget.indicatorColor,
+                                  // ),
                                 )
                               : const IgnorePointer(),
                         );
@@ -197,6 +216,92 @@ class _StepTimerIndicatorState extends State<StepTimerIndicator> {
                   ),
                 ),
               ),
+              // Center(
+              //   child: Transform.rotate(
+              //     angle: -Constants.PI / 2,
+              //     child: Stack(
+              //       alignment: Alignment.center,
+              //       children: List.generate(
+              //         widget.stepCount,
+              //         (stepIndex) {
+              //           double stepAngle =
+              //               stepIndex * 2 * Constants.PI / widget.stepCount;
+              //           bool isActive = currentStep >= stepIndex;
+              //           bool showIndicator = currentStep == stepIndex;
+              //           Offset p1 =
+              //               Offset.fromDirection(stepAngle, widget.space);
+              //           Offset p2 = Offset.fromDirection(
+              //               stepAngle, widget.space - widget.stepLength);
+              //           return CustomPaint(
+              //             foregroundPainter: NumberPainter(
+              //               p1: p1,
+              //               stepIndex: stepIndex,
+              //               showText: showIndicator,
+              //               textPainter: TextPainter()
+              //                 ..textDirection = TextDirection.ltr
+              //                 ..text = TextSpan(
+              //                   text: stepIndex.toString(),
+              //                   style: const TextStyle(
+              //                     color: Colors.amber,
+              //                     fontSize: 15,
+              //                   ),
+              //                 ),
+              //             ),
+              //             painter: StepPainter(
+              //               p1: p1,
+              //               p2: p2,
+              //               stepPaint: Paint()
+              //                 ..color = isActive
+              //                     ? widget.progressColor
+              //                     : widget.inProgressColor
+              //                 ..strokeWidth = widget.stepWidth
+              //                 ..style = PaintingStyle.stroke
+              //                 ..strokeCap = StrokeCap.round,
+              //               isActive: showIndicator,
+              //             ),
+              //             child: showIndicator
+              //                 ?
+              //                 // CustomPaint(
+              //                 //     painter: ArrowPainter(
+              //                 //         p1: p1,
+              //                 //         indicatorColor: widget.indicatorColor,
+              //                 //
+              //                 //
+              //                 //         angle: stepAngle,
+              //                 //         p2: p2),
+              //                 //   )
+              //                 // CustomPaint(
+              //                 //     painter: CirclePainter(
+              //                 //       p1: p1,
+              //                 //       indicatorColor: widget.indicatorColor,
+              //                 //       indicatorGap: widget.indicatorGap,
+              //                 //       indicatorSize: widget.indicatorSize,
+              //                 //       angle: stepAngle,
+              //                 //     ),
+              //                 //   )
+              //                 CustomPaint(
+              //                     painter: TrianglePainter(
+              //                       p1: p1,
+              //                       p2: p2,
+              //                       indicatorColor: widget.indicatorColor,
+              //
+              //                     ),
+              //                   )
+              //                 // CustomPaint(
+              //                 //     painter: ArrowPainter(
+              //                 //       p1: p1,
+              //                 //       p2: p2,
+              //                 //       indicatorColor: widget.indicatorColor,
+              //                 //       angle: stepAngle,
+              //                 //     ),
+              //                 //   )
+              //                 : const IgnorePointer(),
+              //           );
+              //         },
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         );
